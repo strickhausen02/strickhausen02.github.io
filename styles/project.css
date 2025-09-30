@@ -27,7 +27,6 @@ h2 {
     font-size: 130%;
     color: #800000;
     text-indent: 30px;
-    border-bottom: 2px solid maroon;
 }
 img {
     float: left;
@@ -49,6 +48,7 @@ article h3 {
     column-span: all;
 }
 article img {
+    border-top: 2px solid maroon;
     float: left;
     margin-right: 1em;
     margin-bottom: 1em;
