@@ -48,7 +48,6 @@ article h3 {
     column-span: all;
 }
 article img {
-    border-top: 2px solid maroon;
     float: left;
     margin-right: 1em;
     margin-bottom: 1em;
@@ -60,6 +59,7 @@ article p::first-letter {
     color: lightgreen;
 }
 aside {
+    border-top: 2px solid maroon;
     width: 20%;
     float: right;
     background-color: #ffebc6;
