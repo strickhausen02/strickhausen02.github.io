@@ -72,6 +72,7 @@ footer {
 }
 .menu-button-container {
     display:block;
+    color: blue;
     height: 100%;
     width: 30px;
     cursor: pointer;
