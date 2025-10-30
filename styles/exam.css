@@ -21,3 +21,24 @@ article {
     column-gap: 2em;
     margin-left: 2em;
 }
+#introduction {
+    color: blue;
+}
+#method {
+    color: blue;
+}
+#analysis {
+    color: blue;
+}
+#measurement {
+    color: blue;
+}
+#structure {
+    color: blue;
+}
+#results {
+    color: blue;
+}
+#discussion {
+    color: blue;
+}
