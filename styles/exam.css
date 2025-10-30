@@ -50,3 +50,9 @@ article img {
 article p::first-letter {
     font-size: 3em;
 }
+aside {
+    border-top: 2px solid maroon;
+    width: 20%;
+    float: right;
+    background-color: #ffebc6;
+}
