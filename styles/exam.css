@@ -56,4 +56,5 @@ aside {
     float: right;
     background-color: #5485b6;
     align-content: center;
+    position: sticky;
 }
