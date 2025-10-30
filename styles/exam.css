@@ -56,6 +56,7 @@ aside {
     float: right;
     background-color: #5485b6;
     margin: auto;
+    vertical-align: middle;
 }
 footer {
     text-align: center;
