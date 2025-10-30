@@ -55,6 +55,6 @@ aside {
     width: 20%;
     float: right;
     background-color: #5485b6;
-    background-attachment:fixed;
+    background-attachment:scroll;
     align-items: center;
 }
