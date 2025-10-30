@@ -24,6 +24,7 @@ article {
 article h1 {
     column-span: all;
     color: blue;
+    border-top: 2px solid blue;
 }
 #introduction {
     color: blue;
