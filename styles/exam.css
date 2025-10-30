@@ -6,3 +6,6 @@ body {
     background-repeat: repeat-y;
     background-attachment: fixed
 }
+article {
+    width: 75%;
+}
