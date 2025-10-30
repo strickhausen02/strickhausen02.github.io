@@ -93,3 +93,6 @@ footer {
 .ol1 {
     list-style-type: upper-roman;
 }
+.ol2 {
+    list-style-type: circle;
+}
