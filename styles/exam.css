@@ -68,7 +68,7 @@ footer {
     justify-content: left;
     list-style-type: none;
     margin: 0;
-    padding: 0;    
+    padding: 10px;    
 }
 .menu li {
   float: left;
