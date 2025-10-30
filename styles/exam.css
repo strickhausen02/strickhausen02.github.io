@@ -55,4 +55,6 @@ aside {
     width: 20%;
     float: right;
     background-color: #5485b6;
+    background-attachment: fixed;
+    text-align: center;
 }
