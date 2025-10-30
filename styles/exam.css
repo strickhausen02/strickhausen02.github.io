@@ -4,6 +4,7 @@ html {
 body {
     width: 95%;
     margin: 15px auto;
+    background-color: white;
     padding: 15px 1.5em;
     border: 1px solid black;
     border-radius: 25px;
