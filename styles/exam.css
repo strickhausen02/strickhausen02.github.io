@@ -55,7 +55,7 @@ article p::first-letter {
     font-size: 3em;
 }
 aside {
-    border-top: 2px solid maroon;
+    border: 2px solid black;
     width: 20%;
     float: right;
     background-color: #aad3fd;
