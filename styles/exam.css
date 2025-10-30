@@ -94,5 +94,8 @@ footer {
     list-style-type: upper-roman;
 }
 .ol2 {
-    list-style-type: circle;
+    list-style-type:square;
+}
+.ol3 {
+    list-style-type: lower-alpha;
 }
