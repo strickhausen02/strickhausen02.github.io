@@ -24,7 +24,6 @@ article {
 article h1 {
     column-span: all;
     color: blue;
-    border-top: 2px solid blue;
 }
 #introduction {
     color: blue;
@@ -75,6 +74,7 @@ footer {
     list-style-type: none;
     margin: 10px;
     padding: 10px;    
+    border-bottom: 2px solid blue;
 }
 .menu li {
   float: left;
