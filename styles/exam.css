@@ -61,7 +61,7 @@ footer {
     text-align: center;
     border-top: 2px solid blue;
 }
-nav {
+.menu {
     display: flex;
     flex-direction: row;
     align-items: center;
