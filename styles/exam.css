@@ -1,5 +1,5 @@
 html {
-    background-color: rgb(84, 133, 182);
+    background-color: #5485b6;
 }
 body {
     width: 95%;
@@ -54,5 +54,5 @@ aside {
     border-top: 2px solid maroon;
     width: 20%;
     float: right;
-    background-color: #ffebc6;
+    background-color: #5485b6;
 }
