@@ -60,6 +60,7 @@ aside {
     float: right;
     background-color: #aad3fd;
     margin: auto;
+    position: absolute;
 }
 footer {
     text-align: center;
