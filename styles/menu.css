@@ -4,3 +4,27 @@
 .ol2 {
     list-style-type: square;
 }
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    list-style-type: none;
+    margin: 10px;
+    padding: 10px;    
+    border-bottom: 2px solid blue;
+}
+.menu li {
+  float: left;
+}
+
+.menu li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration:none;
+  background-color: blue;
+  margin: 1px;
+  width: 6em;
+}
