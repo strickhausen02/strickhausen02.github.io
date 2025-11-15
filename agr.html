@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Study Hours Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --accent-strong: #2563eb;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --border: #1f2937;
+      --radius-lg: 1rem;
+      --radius-md: 0.75rem;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.85);
+      --shadow-card: 0 12px 30px rgba(15, 23, 42, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 50%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      background: linear-gradient(145deg, #020617 0%, #020617 40%, #020617 100%);
+      border-radius: 1.75rem;
+      box-shadow: var(--shadow-soft);
+      padding: 1.75rem 1.75rem 2.25rem;
+      border: 1px solid rgba(148, 163, 184, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .title-block {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .logo-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #60a5fa, #1d4ed8 55%, #0b1120 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 35px rgba(37, 99, 235, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-circle::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: inherit;
+      border: 1px solid rgba(248, 250, 252, 0.35);
+      opacity: 0.9;
+    }
+
+    .logo-circle span {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #e5f0ff;
+      letter-spacing: 0.02em;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    h1 span.highlight {
+      background: linear-gradient(135deg, #60a5fa, #a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.1);
+      color: #5eead4;
+      font-size: 0.7rem;
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 860px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.18), transparent 55%),
+                  rgba(15, 23, 42, 0.97);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.3rem 1.35rem;
+      border: 1px solid rgba(30, 64, 175, 0.35);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-ghost {
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.18), transparent 55%),
+                  rgba(15, 23, 42, 0.97);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.3rem 1.35rem;
+      border: 1px solid rgba(30, 64, 175, 0.25);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #cbd5f5;
+    }
+
+    .card-header span.helper {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.25rem;
+    }
+
+    .field-group {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 0.7rem;
+    }
+
+    @media (max-width: 600px) {
+      .field-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      color: #d1d5db;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.55rem 0.6rem;
+      border-radius: 0.7rem;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.18), rgba(15, 23, 42, 0.98));
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.3), rgba(15, 23, 42, 1));
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+      max-height: 150px;
+    }
+
+    .inline-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    .inline-inputs small {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      margin-top: 0.3rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0, #93c5fd, #2563eb 50%, #1d4ed8 85%);
+      color: #e5f1ff;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.9);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 45px rgba(37, 99, 235, 1);
+      filter: brightness(1.03);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.85);
+      filter: brightness(0.98);
+    }
+
+    .btn-primary span.icon {
+      font-size: 1.1rem;
+      translate: 0 0.5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .stat-card {
+      border-radius: var(--radius-md);
+      padding: 0.7rem 0.85rem;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.2), rgba(15, 23, 42, 1));
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-height: 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:nth-child(2) {
+      background: radial-gradient(circle at top left, rgba(16, 185, 129, 0.22), rgba(15, 23, 42, 1));
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .stat-card:nth-child(3) {
+      background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.25), rgba(15, 23, 42, 1));
+      border-color: rgba(249, 115, 22, 0.4);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #e5e7eb;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 0.1rem;
+    }
+
+    .stat-sub {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 0.05rem;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle at 10% -10%, rgba(248, 250, 252, 0.2), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .log-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      font-size: 0.78rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: var(--muted);
+    }
+
+    .small-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .log {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(30, 64, 175, 0.35);
+      overflow: hidden;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1));
+      max-height: 430px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .log table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .log thead {
+      background: linear-gradient(90deg, rgba(15, 23, 42, 1), rgba(30, 64, 175, 0.85));
+    }
+
+    .log th,
+    .log td {
+      padding: 0.55rem 0.7rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .log th {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: #cbd5f5;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .log tbody {
+      display: block;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .log thead,
+    .log tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .log tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .log tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.97);
+    }
+
+    .log-empty {
+      text-align: center;
+      padding: 1rem 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(30, 64, 175, 0.25);
+      color: #bfdbfe;
+      font-size: 0.72rem;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-delete {
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fecaca;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      white-space: nowrap;
+      transition: background 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-delete:hover {
+      background: rgba(239, 68, 68, 0.22);
+      transform: translateY(-0.5px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-delete:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .btn-delete span.icon {
+      font-size: 0.85rem;
+    }
+
+    .notes-cell {
+      font-size: 0.72rem;
+      color: var(--muted);
+      max-width: 230px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .footer-note {
+      margin-top: 0.7rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .dot-muted {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title-block">
+        <div class="logo-circle">
+          <span>SH</span>
+        </div>
+        <div>
+          <h1>
+            <span class="highlight">Study Hours</span> Tracker
+          </h1>
+          <p>Log your sessions, watch your consistency grow, and keep yourself accountable.</p>
+        </div>
+      </div>
+      <div class="badge">
+        <div class="badge-dot"></div>
+        Tracking locally · Offline first
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT: Add Session -->
+      <section class="card">
+        <div class="card-header">
+          <h2>Add Study Session</h2>
+          <span class="helper">Tip: Add sessions right after you finish studying.</span>
+        </div>
+        <form id="session-form">
+          <div class="field-group">
+            <div>
+              <label for="date">Date</label>
+              <input type="date" id="date" required />
+            </div>
+            <div>
+              <label for="subject">Subject / Topic</label>
+              <input type="text" id="subject" placeholder="e.g. Calculus, History, Python" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div>
+              <label>Duration</label>
+              <div class="inline-inputs">
+                <div>
+                  <input type="number" id="hours" min="0" value="1" />
+                  <small>Hours</small>
+                </div>
+                <div>
+                  <input type="number" id="minutes" min="0" max="59" value="0" />
+                  <small>Minutes</small>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label for="notes">Notes (optional)</label>
+              <textarea id="notes" placeholder="What did you cover? Any wins or struggles?"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <span class="icon">➕</span>
+            <span>Log Session</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- RIGHT: Stats + Log -->
+      <section class="card-ghost">
+        <div class="card-header">
+          <h2>Progress Overview</h2>
+          <span class="helper">Stay consistent over weeks, not just days.</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Hours</div>
+            <div class="stat-value" id="stat-total">0h 00m</div>
+            <div class="stat-sub" id="stat-total-sessions">0 sessions logged</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">This Week</div>
+            <div class="stat-value" id="stat-week">0h 00m</div>
+            <div class="stat-sub" id="stat-week-range">–</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">This Month</div>
+            <div class="stat-value" id="stat-month">0h 00m</div>
+            <div class="stat-sub" id="stat-month-label">–</div>
+          </div>
+        </div>
+
+        <div class="log-header">
+          <div>
+            <div class="small-label">Study Log</div>
+            <div class="pill" id="log-count-pill">No sessions yet</div>
+          </div>
+        </div>
+
+        <div class="log">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">Date</th>
+                <th style="width: 22%;">Subject</th>
+                <th style="width: 13%;">Duration</th>
+                <th style="width: 30%;">Notes</th>
+                <th style="width: 15%; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="log-body">
+              <!-- Rows will be injected here -->
+            </tbody>
+          </table>
+          <div class="log-empty" id="log-empty">No study sessions logged yet. Log your first one!</div>
+        </div>
+
+        <div class="footer-note">
+          <span class="dot-muted"></span>
+          Data is stored in your browser only. Clear your browser storage to reset.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "studySessions_v1";
+
+    const dateInput = document.getElementById("date");
+    const subjectInput = document.getElementById("subject");
+    const hoursInput = document.getElementById("hours");
+    const minutesInput = document.getElementById("minutes");
+    const notesInput = document.getElementById("notes");
+    const form = document.getElementById("session-form");
+    const logBody = document.getElementById("log-body");
+    const logEmpty = document.getElementById("log-empty");
+    const logCountPill = document.getElementById("log-count-pill");
+
+    const statTotal = document.getElementById("stat-total");
+    const statTotalSessions = document.getElementById("stat-total-sessions");
+    const statWeek = document.getElementById("stat-week");
+    const statWeekRange = document.getElementById("stat-week-range");
+    const statMonth = document.getElementById("stat-month");
+    const statMonthLabel = document.getElementById("stat-month-label");
+
+    function getTodayISO() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    dateInput.value = getTodayISO();
+
+    function loadSessions() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error("Failed to parse stored sessions", e);
+        return [];
+      }
+    }
+
+    function saveSessions(sessions) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    }
+
+    function minutesToLabel(totalMinutes) {
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      return `${h}h ${String(m).padStart(2, "0")}m`;
+    }
+
+    function formatDate(dateStr) {
+      // dateStr is YYYY-MM-DD
+      const [y, m, d] = dateStr.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      const options = { month: "short", day: "numeric" };
+      return dt.toLocaleDateString(undefined, options);
+    }
+
+    function formatFullDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      const options = { month: "short", day: "numeric", year: "numeric" };
+      return dt.toLocaleDateString(undefined, options);
+    }
+
+    function computeStats(sessions) {
+      let totalMinutes = 0;
+      let weekMinutes = 0;
+      let monthMinutes = 0;
+
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth();
+
+      const dayOfWeek = now.getDay(); // 0 (Sun) - 6 (Sat)
+      const diffToMonday = (dayOfWeek + 6) % 7;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - diffToMonday);
+      monday.setHours(0, 0, 0, 0);
+
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      sunday.setHours(23, 59, 59, 999);
+
+      sessions.forEach((s) => {
+        const minutes = s.minutes || 0;
+        totalMinutes += minutes;
+
+        if (s.date) {
+          const [y, m, d] = s.date.split("-").map(Number);
+          const dt = new Date(y, m - 1, d);
+
+          if (dt >= monday && dt <= sunday) {
+            weekMinutes += minutes;
+          }
+
+          if (dt.getFullYear() === currentYear && dt.getMonth() === currentMonth) {
+            monthMinutes += minutes;
+          }
+        }
+      });
+
+      statTotal.textContent = minutesToLabel(totalMinutes);
+      statTotalSessions.textContent =
+        sessions.length === 1 ? "1 session logged" : `${sessions.length} sessions logged`;
+
+      statWeek.textContent = minutesToLabel(weekMinutes);
+      statWeekRange.textContent = `${monday.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      })} – ${sunday.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      })}`;
+
+      statMonth.textContent = minutesToLabel(monthMinutes);
+      statMonthLabel.textContent = now.toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    function renderSessions() {
+      const sessions = loadSessions();
+      logBody.innerHTML = "";
+
+      if (!sessions.length) {
+        logEmpty.style.display = "block";
+        logCountPill.textContent = "No sessions yet";
+        computeStats([]);
+        return;
+      }
+
+      logEmpty.style.display = "none";
+
+      const sorted = sessions.slice().sort((a, b) => {
+        if (a.date === b.date) {
+          return (a.createdAt || 0) - (b.createdAt || 0);
+        }
+        return a.date < b.date ? 1 : -1;
+      });
+
+      sorted.forEach((session, index) => {
+        const tr = document.createElement("tr");
+
+        const dateTd = document.createElement("td");
+        dateTd.textContent = formatFullDate(session.date);
+        tr.appendChild(dateTd);
+
+        const subjectTd = document.createElement("td");
+        const subjectTag = document.createElement("div");
+        subjectTag.className = "tag";
+        subjectTag.title = session.subject || "";
+        subjectTag.textContent = session.subject || "—";
+        subjectTd.appendChild(subjectTag);
+        tr.appendChild(subjectTd);
+
+        const durationTd = document.createElement("td");
+        durationTd.textContent = minutesToLabel(session.minutes || 0);
+        tr.appendChild(durationTd);
+
+        const notesTd = document.createElement("td");
+        const notesDiv = document.createElement("div");
+        notesDiv.className = "notes-cell";
+        notesDiv.title = session.notes || "";
+        notesDiv.textContent = session.notes || "—";
+        notesTd.appendChild(notesDiv);
+        tr.appendChild(notesTd);
+
+        const actionsTd = document.createElement("td");
+        actionsTd.style.textAlign = "right";
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn-delete";
+        delBtn.innerHTML = '<span class="icon">🗑️</span><span>Delete</span>';
+        delBtn.addEventListener("click", () => deleteSession(session.id));
+        actionsTd.appendChild(delBtn);
+        tr.appendChild(actionsTd);
+
+        logBody.appendChild(tr);
+      });
+
+      const count = sessions.length;
+      logCountPill.textContent =
+        count === 1 ? "1 session logged" : `${count} sessions logged`;
+
+      computeStats(sessions);
+    }
+
+    function deleteSession(id) {
+      const sessions = loadSessions();
+      const next = sessions.filter((s) => s.id !== id);
+      saveSessions(next);
+      renderSessions();
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const date = dateInput.value || getTodayISO();
+      const subject = subjectInput.value.trim();
+      const hours = parseInt(hoursInput.value || "0", 10) || 0;
+      const minutes = parseInt(minutesInput.value || "0", 10) || 0;
+      const notes = notesInput.value.trim();
+
+      if (hours < 0 || minutes < 0 || minutes > 59) {
+        alert("Please enter a valid duration (minutes between 0 and 59).");
+        return;
+      }
+
+      const totalMinutes = hours * 60 + minutes;
+      if (totalMinutes <= 0) {
+        alert("Duration must be greater than zero.");
+        return;
+      }
+
+      const sessions = loadSessions();
+
+      const session = {
+        id: `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        date,
+        subject,
+        minutes: totalMinutes,
+        notes,
+        createdAt: Date.now(),
+      };
+
+      sessions.push(session);
+      saveSessions(sessions);
+
+      subjectInput.value = "";
+      notesInput.value = "";
+      hoursInput.value = "1";
+      minutesInput.value = "0";
+
+      renderSessions();
+    });
+
+    renderSessions();
+  </script>
+</body>
+</html>
