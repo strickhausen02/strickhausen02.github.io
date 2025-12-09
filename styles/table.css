@@ -44,3 +44,6 @@ table.third {
 table.third th {
     background-color: green;
 }
+table.third caption {
+    background-color: green;
+}
