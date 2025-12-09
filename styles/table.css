@@ -51,3 +51,6 @@ table.second th, table.second td {
     padding: 0.7em;  
     vertical-align: top;
 }
+table.second thead tr:first-child{     
+    border-bottom: 2px solid rebeccapurple;
+}
