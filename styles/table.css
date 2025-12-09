@@ -34,3 +34,13 @@ table.second th, table.second td {
 table.second thead tr:first-child{     
     border-bottom: 2px solid purple;
 }
+/*-----------------------------------------------------------*/
+table.third {
+    border-collapse: separate;
+    border: 2px solid red;
+    border-left: white;
+    border-right: white;
+}
+table.third th {
+    background-color: green;
+}
