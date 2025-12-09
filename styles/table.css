@@ -43,6 +43,7 @@ table.third {
 }
 table.third thead {
     background-color: green;
+    border: 2px red;
 }
 table.third th, table.third td {
     padding: 0.7em;  
