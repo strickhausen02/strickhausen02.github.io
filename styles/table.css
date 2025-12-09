@@ -47,10 +47,10 @@ table.third th {
 table.third caption {
     background-color: green;
 }
-table.second th, table.second td {
+table.third th, table.third td {
     padding: 0.7em;  
     vertical-align: top;
 }
-table.second thead tr:first-child{     
-    border-bottom: 2px solid rebeccapurple;
+table.third thead tr:first-child{     
+    border-bottom: 2px solid red;
 }
