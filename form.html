@@ -45,6 +45,34 @@
                 title="Must be 999-999-999 format"
                 autocomplete="on"><br>
         </fieldset>
+        <fieldset>
+            <legend>Memebership Information</legend>
+            <label for="Type">Membership Type:</label>
+            Style:<br>
+            <select id="style_and_size">
+                <optgroup label="The New Yorker">
+                    <option value="ny10">10"</option>
+                    <option value="ny12">12"</option>
+                    <option value="ny16">16"</option>
+                </optgroup>
+                <optgroup label="The Chicago">
+                    <option value="chi10">10"</option>
+                    <option value="chi12">12"</option>
+                    <option value="chi16">16"</option>
+                </optgroup>
+            </select>
+C13, Slide 10
+            <input type="" name="email" id="email"
+                autofocus required autocomplete="on"><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required
+                placeholder="At least 6 letters or numbers" 
+                pattern="[a-zA-Z0-9]{6,}"
+                title="Must be at least 6 alphanumeric characters">
+            <br>
+            <label for="verify">Verify Password:</label>
+            <input type="password" name="verify" id="verify" required><br>
+        </fieldset>
     </form>
 </body>
 </html>
