@@ -47,3 +47,7 @@ table.third th {
 table.third caption {
     background-color: green;
 }
+table.second th, table.second td {
+    padding: 0.7em;  
+    vertical-align: top;
+}
