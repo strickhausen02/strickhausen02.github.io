@@ -50,5 +50,5 @@ table.third th, table.third td {
     vertical-align: top;
 }
 table.third thead tr:first-child{     
-    border-bottom: 2px solid red;
+    border-top: 2px solid red;
 }
