@@ -41,10 +41,7 @@ table.third {
     border-left: white;
     border-right: white;
 }
-table.third th {
-    background-color: green;
-}
-table.third caption {
+table.third thead {
     background-color: green;
 }
 table.third th, table.third td {
